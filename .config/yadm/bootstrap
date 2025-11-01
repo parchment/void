@@ -1,0 +1,118 @@
+#!/bin/bash
+
+set -e  # Exit on error
+
+echo "========================================="
+echo "Running Void Linux Bootstrap Script"
+echo "========================================="
+
+# Function to check if package is installed
+package_installed() {
+    xbps-query -l | grep -q " $1-[0-9]"
+    return $?
+}
+
+# Install a package if not already installed
+install_if_missing() {
+    if ! package_installed "$1"; then
+        echo "Installing $1..."
+        sudo xbps-install -y "$1"
+    else
+        echo "$1 already installed, skipping."
+    fi
+}
+
+# Create directory structure
+mkdir ~/projects
+
+# Update system only once
+echo "Updating package repository..."
+sudo xbps-install -Syu
+
+# Install packages individually
+echo "Installing required packages..."
+PACKAGES="base-devel bat bottom curl docker fd fish-shell fzf git github-cli helix httpie jq lazygit lazydocker n rclone tailscale tree wget yazi zoxide"
+for pkg in $PACKAGES; do
+    install_if_missing "$pkg"
+done
+
+# Install PNPM
+echo "Installing PNPM package manager..."
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# Install Rust toolchain
+echo "Installing Rust toolchain via rustup..."
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Check if Atuin is already installed
+if ! command -v atuin &> /dev/null; then
+    echo "Installing Atuin..."
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+else
+    echo "Atuin already installed, skipping."
+fi
+
+# Check if yazi plugin is installed (first check if yazi is actually installed)
+if command -v ya &> /dev/null; then
+    if ! ya pkg list 2>/dev/null | grep -q "full-border"; then
+        echo "Installing yazi full-border plugin..."
+        ya pkg add yazi-rs/plugins:full-border
+    else
+        echo "Yazi full-border plugin already installed, skipping."
+    fi
+else
+    echo "Yazi not found, skipping plugin installation."
+fi
+
+# Check if fish is already the default shell
+if [ "$SHELL" != "/usr/bin/fish" ]; then
+    echo "Setting fish as default shell..."
+    # First ensure fish is in /etc/shells
+    if ! grep -q "^/usr/bin/fish$" /etc/shells; then
+        echo "/usr/bin/fish" | sudo tee -a /etc/shells
+    fi
+    chsh -s /usr/bin/fish
+else
+    echo "Fish shell already set as default, skipping."
+fi
+
+# Check if Oh My Fish is already installed
+# We run this in a fish shell to properly check
+if ! fish -c 'test -d "$HOME/.local/share/omf"'; then
+    echo "Installing Oh My Fish..."
+    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+    fish -c 'omf install'
+else
+    echo "Oh My Fish already installed, skipping."
+fi
+
+# Tailscale setup
+echo "Configuring Tailscale..."
+sudo ln -s /etc/sv/tailscaled /var/service/
+
+echo "Starting Tailscale service..."
+sudo sv up tailscaled
+
+echo "Connecting to Tailscale network with SSH enabled..."
+sudo tailscale up --ssh
+
+echo "Configuring Tailscale to start with SSH enabled..."
+echo 'TS_EXTRA_ARGS="--ssh"' | sudo tee /etc/tailscale/tailscaled.conf
+echo 'OPTS="--state=/var/lib/tailscale/tailscaled.state"' | sudo tee /etc/sv/tailscaled/conf
+sudo sv restart tailscaled
+
+# Docker setup
+echo "Configuring Docker..."
+echo "Enabling Docker service..."
+sudo ln -s /etc/sv/docker /var/service/
+# Check if user is in docker group
+echo "Adding user to docker group..."
+sudo usermod -aG docker $USER
+sudo newgrp docker
+
+echo ""
+echo "========================================="
+echo "Bootstrap complete! 🎉"
+echo "========================================="
+echo "Some changes may require logging out and back in to take full effect."
+echo "To apply docker group changes immediately, run: newgrp docker"

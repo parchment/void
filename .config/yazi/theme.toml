@@ -1,0 +1,80 @@
+[[filetype.rules]]
+bold = true
+fg = "blue"
+name = "*/"
+
+[[filetype.rules]]
+fg = "grey"
+name = "*"
+
+[mgr.border_style]
+fg = "black"
+
+[mgr.cwd]
+fg = "grey"
+
+[mgr.marker_copied]
+bg = "green"
+fg = "black"
+
+[mgr.marker_cut]
+bg = "red"
+fg = "black"
+
+[mgr.marker_marked]
+bg = "blue"
+fg = "black"
+
+[mgr.marker_selected]
+bg = "yellow"
+fg = "black"
+
+[mode.normal_alt]
+bg = "black"
+fg = "green"
+
+[mode.normal_main]
+bg = "green"
+fg = "black"
+
+[mode.select_alt]
+bg = "black"
+fg = "yellow"
+
+[mode.select_main]
+bg = "yellow"
+fg = "black"
+
+[status]
+sep_close = ""
+sep_open = ""
+[status.overall]
+bg = "reset"
+fg = "reset"
+
+[status.progress_error]
+bg = "reset"
+fg = "reset"
+
+[status.progress_label]
+bg = "reset"
+fg = "reset"
+
+[status.progress_normal]
+bg = "reset"
+fg = "reset"
+
+[status.sep_left]
+close = ""
+open = ""
+
+[status.sep_right]
+close = ""
+open = ""
+
+[icon]
+globs = []
+dirs  = []
+files = []
+exts  = []
+conds = []
