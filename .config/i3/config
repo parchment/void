@@ -1,15 +1,25 @@
 set $mod Mod4
 
-# Force all windows fullscreen on open
+# Remove window decorations entirely
+default_border none
+default_floating_border none
+
+# Force all windows fullscreen
 for_window [class=".*"] fullscreen enable
 
 # Workspace switching
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
 
 # Move windows to workspaces
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
 
 # App launchers
 bindsym $mod+Return exec ghostty
@@ -23,6 +33,3 @@ bindsym $mod+Shift+e exit
 bar {
     mode invisible
 }
-
-new_window none
-new_float none
