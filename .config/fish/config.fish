@@ -22,7 +22,7 @@ set --global hydro_symbol_git_behind "↓"
 function set_console_colors
     # Set the 16-color palette using printf escape sequences
     printf '\e]P0000000' # Black
-    printf '\e]P1FF6188' # Red  
+    printf '\e]P1FF6188' # Red
     printf '\e]P2A9DC76' # Green
     printf '\e]P3FFD866' # Yellow
     printf '\e]P478B4F3' # Blue
@@ -52,6 +52,13 @@ end
 # Auto-apply on shell start
 if test "$TERM" = linux
     setup_console
+end
+
+# In ~/.config/fish/config.fish
+if test -z "$XDG_RUNTIME_DIR"
+    set -gx XDG_RUNTIME_DIR /tmp/runtime-(id -u)
+    mkdir -p $XDG_RUNTIME_DIR
+    chmod 700 $XDG_RUNTIME_DIR
 end
 
 set -gx ATUIN_NOBIND true
