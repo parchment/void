@@ -1,16 +1,10 @@
-# ~/.config/i3/config
-
 set $mod Mod4
 
 # Remove window decorations entirely
 default_border none
 default_floating_border none
 
-# Specific rules for ghostty
-for_window [class="com.mitchellh.ghostty"] border none, fullscreen enable
-for_window [class="ghostty"] border none, fullscreen enable
-
-# Generic rule for everything else
+# Force all windows fullscreen
 for_window [class=".*"] fullscreen enable
 
 # Workspace switching
@@ -32,10 +26,5 @@ bindsym $mod+Return exec ghostty
 bindsym $mod+b exec firefox
 bindsym $mod+d exec dmenu_run
 
-# Exit i3
+# Exit sway
 bindsym $mod+Shift+e exit
-
-# No status bar
-bar {
-    mode invisible
-}
