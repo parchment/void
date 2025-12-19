@@ -87,19 +87,7 @@ else
 fi
 
 # Tailscale setup
-echo "Configuring Tailscale..."
-sudo ln -s /etc/sv/tailscaled /var/service/
-
-echo "Starting Tailscale service..."
-sudo sv up tailscaled
-
-echo "Connecting to Tailscale network with SSH enabled..."
-sudo tailscale up --ssh
-
-echo "Configuring Tailscale to start with SSH enabled..."
-echo 'TS_EXTRA_ARGS="--ssh"' | sudo tee /etc/tailscale/tailscaled.conf
-echo 'OPTS="--state=/var/lib/tailscale/tailscaled.state"' | sudo tee /etc/sv/tailscaled/conf
-sudo sv restart tailscaled
+fish -c 'setup_tailscale'
 
 # Docker setup
 echo "Configuring Docker..."
