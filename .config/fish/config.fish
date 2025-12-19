@@ -1,3 +1,5 @@
+alias bye='sudo shutdown -h now'
+
 # Interactive shell initialisation
 set -gx EDITOR hx
 
@@ -19,27 +21,27 @@ set --global hydro_symbol_git_behind "↓"
 
 function set_console_colors
     # Set the 16-color palette using printf escape sequences
-    printf '\e]P0000000'  # Black
-    printf '\e]P1FF6188'  # Red  
-    printf '\e]P2A9DC76'  # Green
-    printf '\e]P3FFD866'  # Yellow
-    printf '\e]P478B4F3'  # Blue
-    printf '\e]P5FC9867'  # Magenta
-    printf '\e]P6AB9DF2'  # Cyan
-    printf '\e]P7C7C7C7'  # White
-    printf '\e]P8444444'  # Bright Black
-    printf '\e]P9FF6188'  # Bright Red
-    printf '\e]PAAA9DC76'  # Bright Green
-    printf '\e]PBFFD866'  # Bright Yellow
-    printf '\e]PC78B4F3'  # Bright Blue
-    printf '\e]PDFC9867'  # Bright Magenta
-    printf '\e]PEAB9DF2'  # Bright Cyan
-    printf '\e]PFC7C7C7'  # Bright White
+    printf '\e]P0000000' # Black
+    printf '\e]P1FF6188' # Red  
+    printf '\e]P2A9DC76' # Green
+    printf '\e]P3FFD866' # Yellow
+    printf '\e]P478B4F3' # Blue
+    printf '\e]P5FC9867' # Magenta
+    printf '\e]P6AB9DF2' # Cyan
+    printf '\e]P7C7C7C7' # White
+    printf '\e]P8444444' # Bright Black
+    printf '\e]P9FF6188' # Bright Red
+    printf '\e]PAAA9DC76' # Bright Green
+    printf '\e]PBFFD866' # Bright Yellow
+    printf '\e]PC78B4F3' # Bright Blue
+    printf '\e]PDFC9867' # Bright Magenta
+    printf '\e]PEAB9DF2' # Bright Cyan
+    printf '\e]PFC7C7C7' # Bright White
     clear
 end
 
 function setup_console
-    if test "$TERM" = "linux"
+    if test "$TERM" = linux
         # Your existing color function
         set_console_colors
         # Add font
@@ -48,7 +50,7 @@ function setup_console
 end
 
 # Auto-apply on shell start
-if test "$TERM" = "linux"
+if test "$TERM" = linux
     setup_console
 end
 
@@ -85,6 +87,6 @@ end
 # pnpm
 set -gx PNPM_HOME "/home/victor/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
