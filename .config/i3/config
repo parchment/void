@@ -1,10 +1,16 @@
+# ~/.config/i3/config
+
 set $mod Mod4
 
 # Remove window decorations entirely
 default_border none
 default_floating_border none
 
-# Force all windows fullscreen
+# Specific rules for ghostty
+for_window [class="com.mitchellh.ghostty"] border none, fullscreen enable
+for_window [class="ghostty"] border none, fullscreen enable
+
+# Generic rule for everything else
 for_window [class=".*"] fullscreen enable
 
 # Workspace switching
