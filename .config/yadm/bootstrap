@@ -31,7 +31,7 @@ sudo xbps-install -Syu
 
 # Install packages individually
 echo "Installing required packages..."
-PACKAGES="base-devel bat bottom curl docker fd fish-shell fzf git github-cli helix httpie jq lazygit lazydocker n rclone tailscale tree wget yazi zoxide"
+PACKAGES="base-devel bat bottom curl docker fd firefox fish-shell font-spleen fzf ghostty git github-cli helix httpie i3 dmenu i3status jq lazygit lazydocker n rclone tailscale tree wget xorg xinit yazi zoxide"
 for pkg in $PACKAGES; do
     install_if_missing "$pkg"
 done
