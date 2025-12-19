@@ -38,9 +38,18 @@ function set_console_colors
     clear
 end
 
-# Auto-apply on shell start (only for console, not terminal emulators)
+function setup_console
+    if test "$TERM" = "linux"
+        # Your existing color function
+        set_console_colors
+        # Add font
+        sudo setfont spleen-8x16
+    end
+end
+
+# Auto-apply on shell start
 if test "$TERM" = "linux"
-    set_console_colors
+    setup_console
 end
 
 set -gx ATUIN_NOBIND true
